@@ -45,7 +45,7 @@ npm run dev
 npm start
 ```
 
-By default, the server runs on **http://localhost:3000**.  
+By default, the server runs on **http://localhost:8000**.  
 
 ---
 
