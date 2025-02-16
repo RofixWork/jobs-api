@@ -9,7 +9,6 @@ import connectDB from "./db/connect.js";
 import authRouter from "./routes/auth.routes.js";
 import jobRouter from "./routes/job.routes.js";
 import authenticateMiddleware from "./middlewares/authenticate.js";
-
 // secutiry middlewares
 import helmet from "helmet";
 import cors from "cors";
@@ -35,12 +34,7 @@ app.use(xss()); // prevent XSS attacks
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/jobs", authenticateMiddleware, jobRouter);
 app.get("/", (req, res) => {
-  const html = `
-  <h1>API AUTH => /api/v1/auth</h1>
-  <hr />
-  <h1>API JOBS => /api/v1/jobs</h1>
-  `
-  res.status(200).send(html);
+  res.status(200).sendFile(path.resolve('public', 'index.html'));
 });
 
 // middlewares
