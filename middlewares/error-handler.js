@@ -9,9 +9,27 @@ import { CustomAPIError } from "../errors/custom-error.js";
  * @returns {import("express").Response}
  */
 const errorHandlerMiddleware = (error, request, response, next) => {
-    if(error instanceof Error) {
-        return response.status(error.status || StatusCodes.INTERNAL_SERVER_ERROR).json({ message: error.message });
+
+    let customError = {
+        statusCode: error.status || StatusCodes.INTERNAL_SERVER_ERROR,
+        msg: error.message || "Something went wrong, please try again..."
     }
-    return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({message: 'Something went wrong...'})
+
+    if(error.code && error.code === 11000) {
+        customError.msg = `Duplicate value entered ${Object.keys(error['keyValue'])}, please enter another value...`;
+        customError.statusCode = StatusCodes.CONFLICT;
+    }
+
+    if(error.name === 'ValidationError') {        
+        customError.msg = Object.values(error.errors).map(e => e.message);
+        customError.statusCode = StatusCodes.BAD_REQUEST;
+    }
+
+    if(error.name === 'CastError') {
+        
+        customError.msg = `Invalid ${JSON.stringify(error.value)} id, please provide a valid id...`;
+        customError.statusCode = StatusCodes.NOT_FOUND;
+    }
+    return response.status(customError.statusCode).json({msg: customError})
 };
 export default errorHandlerMiddleware;
