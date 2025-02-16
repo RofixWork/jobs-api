@@ -35,7 +35,12 @@ app.use(xss()); // prevent XSS attacks
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/jobs", authenticateMiddleware, jobRouter);
 app.get("/", (req, res) => {
-  throw new Error("hello");
+  const html = `
+  <h1>API AUTH => /api/v1/auth</h1>
+  <hr />
+  <h1>API JOBS => /api/v1/jobs</h1>
+  `
+  res.status(200).send(html);
 });
 
 // middlewares
