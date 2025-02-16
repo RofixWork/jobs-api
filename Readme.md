@@ -63,8 +63,8 @@ The **Jobs API** is a RESTful service that enables management of job postings an
 
 ### Authentication
 
-- `POST /api/auth/v1/register`: Register a new user.
-- `POST /api/auth/v1/login`: Authenticate a user and obtain a token.
+- `POST /api/v1/auth/register`: Register a new user.
+- `POST /api/v1/auth/login`: Authenticate a user and obtain a token.
 
 ### Jobs
 
